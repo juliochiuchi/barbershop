@@ -1,5 +1,5 @@
 import { Header } from "./_components/header"
-import { SearchIcon } from "lucide-react"
+import { EyeIcon, FootprintsIcon, SearchIcon } from "lucide-react"
 import { Button } from "./_components/ui/button"
 import { Input } from "./_components/ui/input"
 import Image from "next/image"
@@ -11,22 +11,46 @@ import { BarberShopItem } from "./_components/barbershop-item"
 
 const Home = async () => {
   const barbershops = await db.barbershop.findMany({})
-  console.log(barbershops)
 
   return (
     <div>
       <Header />
 
       <div className="p-5">
-
         <h2 className="text-xl font-bold">Ola, Julio!</h2>
         <p>Segunda, 6 de Agosto</p>
-
 
         <div className="flex items-center gap-2 mt-6">
           <Input placeholder="faca a sua busca..." />
           <Button>
             <SearchIcon />
+          </Button>
+        </div>
+
+        <div className="flex gap-3 mt-6 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          <Button className="px-6 gap-2" variant="secondary">
+            <Image alt="cabelo" src="./cabelo.svg" width={16} height={16} />
+            Cabelo
+          </Button>
+
+          <Button className="px-6 gap-2" variant="secondary">
+            <Image alt="barba" src="./barba.svg" width={16} height={16} />
+            Barba
+          </Button>
+
+          <Button className="px-6 gap-2" variant="secondary">
+            <Image alt="acabamento" src="./acabamento.svg" width={16} height={16} />
+            Acabamento
+          </Button>
+
+          <Button className="px-6 gap-2" variant="secondary">
+            <FootprintsIcon size={16} />
+            Pezinho
+          </Button>
+
+          <Button className="px-6 gap-2" variant="secondary">
+            <EyeIcon size={16} />
+            Sobrancelha
           </Button>
         </div>
 
@@ -74,7 +98,26 @@ const Home = async () => {
             ))
           }
         </div>
+
+        <h2 className="mt-6 mb-3 uppercase font-bold text-xs text-gray-400">Populares</h2>
+        <div className="flex gap-4 overflow-auto [&::-webkit-scrollbar]:hidden">
+          {
+            barbershops.map((barbershop) => (
+              <BarberShopItem key={barbershop.id}
+                barbershop={barbershop}
+              />
+            ))
+          }
+        </div>
       </div>
+
+      <footer>
+        <Card className="">
+          <CardContent className="px-5 py-6 text-center">
+            <p className="text-xs text-gray-400">© 2023 Copyright | <span className="text-sm font-bold">Barber Shop</span></p>
+          </CardContent>
+        </Card>
+      </footer>
     </div>
   )
 }
